@@ -15,9 +15,11 @@
     "reactstrap": "^8.0.1"
   },
   "scripts": {
-    "server": "nodemon ./server/server.js",
+    "dev": "concurrently \"yarn client\" \"yarn server\"",
     "client": "webpack-dev-server --mode development --open",
-    "dev": "concurrently \"yarn client\" \"yarn server\""
+    "server": "npm-run-all --parallel server:build server:run",
+    "server:build": "webpack --config webpack.config.server.js --watch",
+    "server:run": "nodemon ./dist/server/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -28,7 +30,9 @@
     "css-loader": "^3.1.0",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.19.1",
+    "npm-run-all": "^4.1.5",
     "style-loader": "^0.23.1",
+    "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
     "webpack": "^4.37.0",
     "webpack-cli": "^3.3.6",

@@ -2,7 +2,7 @@ import * as bluebird from "bluebird";
 import mongoose = require("mongoose");
 mongoose.Promise = bluebird;
 
-const { DB_URL } = process.env;
+const { DB_URL = "mongodb://localhost:27017/bonsai-fayadh-db" } = process.env;
 
 export const connectToDB = async () => {
   try {

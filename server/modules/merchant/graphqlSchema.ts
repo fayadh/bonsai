@@ -32,14 +32,6 @@ const typeDefs = gql`
   type User {
     userId: String
   }
-  type Order {
-    id: String,
-    productId: Product.id,
-    quantity: Number,
-    expectedDelivery: String,
-    createdAt: String,
-    updatedAt: String
-  }
   type Query {
     merchants: [Merchant!]!
   }
@@ -48,4 +40,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;

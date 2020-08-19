@@ -1,3 +1,4 @@
+const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const htmlPlugin = new HtmlWebPackPlugin({
@@ -5,10 +6,23 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
-  entry: "./client/src/index.js",
+  devServer: {
+    compress: true,
+    historyApiFallback: true,
+    disableHostCheck: true,
+  },
+  entry: "./client/src/index.tsx",
   module: {
     rules: [
-      { test: /\.ts?$/, loader: "ts-loader" },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "ts-loader",
+          },
+        ],
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -27,10 +41,10 @@ module.exports = {
     ],
   },
   plugins: [htmlPlugin],
-  output: {
-    publicPath: "./",
-    path: path.resolve(__dirname, "dist/client"),
-    filename: "index.js",
-    libraryTarget: "commonjs2",
+  resolve: {
+    alias: {
+      "@": path.resolve("./client/src"),
+    },
+    extensions: [".tsx", ".ts", "jsx", ".js"],
   },
 };

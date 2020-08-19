@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^14.6.0",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^16.9.8",
     "apollo-boost": "^0.4.3",
     "apollo-server-express": "^2.7.0",
     "bootstrap": "^4.3.1",
@@ -16,7 +19,7 @@
   },
   "scripts": {
     "dev": "concurrently \"yarn client\" \"yarn server\"",
-    "client": "webpack-dev-server --mode development --open",
+    "client": "webpack-dev-server --mode development --open --config webpack.config.client.js",
     "server": "npm-run-all --parallel server:build server:run",
     "server:build": "webpack --config webpack.config.server.js --watch",
     "server:run": "nodemon ./dist/server/index.js"
@@ -25,6 +28,7 @@
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "@types/reactstrap": "^8.5.1",
     "babel-loader": "^8.0.6",
     "concurrently": "^4.1.1",
     "css-loader": "^3.1.0",
@@ -36,6 +40,7 @@
     "typescript": "^3.9.7",
     "webpack": "^4.37.0",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-node-externals": "^2.5.1"
   }
 }

@@ -1,4 +1,4 @@
-import { merchants } from "../../../mockMerchantData";
+const { merchants } = require("../../../mockMerchantData");
 
 const resolvers = {
   Query: {

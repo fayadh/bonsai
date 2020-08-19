@@ -15,7 +15,6 @@ import "./styles.css";
 const GET_PRODUCTS = gql`
   {
     merchants {
-      ya
       guid
       merchant
       products {

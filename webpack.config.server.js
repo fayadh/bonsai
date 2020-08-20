@@ -25,6 +25,9 @@ module.exports = {
   },
   target: "node",
   resolve: {
+    alias: {
+      "@": path.resolve("./server"),
+    },
     extensions: [".ts", ".js"],
   },
 };

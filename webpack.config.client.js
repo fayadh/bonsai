@@ -47,4 +47,7 @@ module.exports = {
     },
     extensions: [".tsx", ".ts", "jsx", ".js"],
   },
+  node: {
+    fs: "empty",
+  },
 };

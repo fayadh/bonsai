@@ -15,7 +15,7 @@ const createRootReducer = (history: any) => {
     router: connectRouter(history),
   });
 
-  return compose(mergePersistedState())(rootReducer);
+  return rootReducer;
 };
 
 export default createRootReducer;

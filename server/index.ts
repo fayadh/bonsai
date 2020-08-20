@@ -11,7 +11,10 @@ import connectToDB from "./db";
 const { PORT = 3000 } = process.env;
 
 const app = express();
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
 server.applyMiddleware({ app });
 

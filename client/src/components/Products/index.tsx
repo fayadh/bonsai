@@ -30,10 +30,8 @@ const GET_PRODUCTS = gql`
   }
 `;
 
-// //@ts-ignore
-const withProducts = (Component: React.FC | React.ComponentClass) => (
-  props: any
-) => {
+//@ts-ignore
+const withProducts = (Component) => (props) => {
   return (
     //@ts-ignore
     <Query query={GET_PRODUCTS}>

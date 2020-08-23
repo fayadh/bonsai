@@ -7,16 +7,12 @@ const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET);
 
 async function verify(token: string) {
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    return payload;
-  } catch (e) {
-    throw new Error(e);
-  }
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: GOOGLE_CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+  return payload;
 }
 
 const findOrCreateUser = async ({
@@ -41,11 +37,19 @@ const findOrCreateUser = async ({
   return user;
 };
 
-export const authMiddleware: Handler = async (req: any, _: any, next: any) => {
-  const token = req.cookies["jwt"] || "";
-  const userGoogleInfomation = await verify(token);
-  let user = await findOrCreateUser(userGoogleInfomation);
-  //@ts-ignore
-  req.user = user;
-  next();
+export const authMiddleware: Handler = async (
+  req: any,
+  res: any,
+  next: any
+) => {
+  try {
+    const token = req.cookies["jwt"] || "";
+    const userGoogleInfomation = await verify(token);
+    let user = await findOrCreateUser(userGoogleInfomation);
+    //@ts-ignore
+    req.user = user;
+    next();
+  } catch (e) {
+    res.send(401);
+  }
 };

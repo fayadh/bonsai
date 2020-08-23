@@ -7,7 +7,7 @@ import {
   CardBody,
   Media,
 } from "reactstrap";
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 import { Query } from "react-apollo";
 
 import "./styles.css";
@@ -30,8 +30,10 @@ const GET_PRODUCTS = gql`
   }
 `;
 
-//@ts-ignore
-const withProducts = (Component) => (props) => {
+// //@ts-ignore
+const withProducts = (Component: React.FC | React.ComponentClass) => (
+  props: any
+) => {
   return (
     //@ts-ignore
     <Query query={GET_PRODUCTS}>

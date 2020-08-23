@@ -2,21 +2,25 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import * as express from "express";
-import { ApolloServer } from "apollo-server-express";
+import * as cors from "cors";
 
-import typeDefs from "./modules/merchant/graphqlSchema";
-import resolvers from "./modules/merchant/resolvers";
 import connectToDB from "./db";
+import server from "./apollo";
+import { authMiddleware } from "./middleware";
+import cookieParser = require("cookie-parser");
 
 const { PORT = 3000 } = process.env;
 
-const app = express();
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+const corsOptions = {
+  origin: "http://localhost:8080",
+  credentials: true,
+};
 
-server.applyMiddleware({ app });
+const app = express();
+app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use(authMiddleware);
+server.applyMiddleware({ app, cors: false });
 
 const main = async () => {
   await connectToDB();

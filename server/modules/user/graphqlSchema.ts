@@ -6,6 +6,10 @@ const typeDefs = gql`
   }
   extend type Query {
     user: User
+    users: User
+  }
+  extend type Mutation {
+    loginAdmin(email: String!, password: String!): User
   }
 `;
 

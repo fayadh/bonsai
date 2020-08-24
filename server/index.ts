@@ -3,10 +3,11 @@ dotenv.config();
 
 import * as express from "express";
 import * as cors from "cors";
+import * as bodyParser from "body-parser";
 
 import connectToDB from "./db";
 import server from "./apollo";
-import { authMiddleware } from "./middleware";
+import { authenticationMiddleware } from "./middleware";
 import cookieParser = require("cookie-parser");
 
 const { PORT = 3000 } = process.env;
@@ -18,8 +19,13 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(
+  bodyParser({
+    extended: true,
+  })
+);
 app.use(cookieParser());
-app.use(authMiddleware);
+app.use(authenticationMiddleware);
 server.applyMiddleware({ app, cors: false });
 
 const main = async () => {

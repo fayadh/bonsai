@@ -1,20 +1,14 @@
 import { Handler } from "express";
 import { OAuth2Client } from "google-auth-library";
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import { Types } from "mongoose";
 
 import User, { User as IUser } from "./models/User";
+import { signToken } from "./utils";
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET);
-
-async function verify(token: string) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: GOOGLE_CLIENT_ID,
-  });
-  const payload = ticket.getPayload();
-  return payload;
-}
 
 const findOrCreateUser = async ({
   email,
@@ -38,10 +32,41 @@ const findOrCreateUser = async ({
   return user;
 };
 
+function verifyPassword(token: string): any {
+  try {
+    const payload = jwt.verify(token, "mySecret");
+    return payload;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function verifyGoogle(token: string) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: GOOGLE_CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+  return payload;
+}
+
 const loginJWT = async ({ req, res, next, token }: any) => {
   try {
-    const userGoogleInfomation = await verify(token);
-    let user = await findOrCreateUser(userGoogleInfomation);
+    let user = null;
+
+    // try password first
+    const payload = verifyPassword(token);
+    if (payload) {
+      const { userId } = payload;
+      user = await User.findOne({ _id: Types.ObjectId(userId) });
+      req.user = user;
+      next();
+      return;
+    }
+
+    // try google otherwise
+    const userGoogleInfomation = await verifyGoogle(token);
+    user = await findOrCreateUser(userGoogleInfomation);
     req.user = user;
     next();
   } catch (e) {
@@ -78,8 +103,10 @@ const loginAdmin = async ({
     }
 
     const user = await User.findOne({ email });
+    const token = await signToken({ userId: user._id });
 
     req.user = user;
+    req.token = token;
     next();
   } catch (e) {
     res.status(401).send();

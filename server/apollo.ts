@@ -5,10 +5,12 @@ import User from "./models/User";
 
 const server = new ApolloServer({
   schema,
-  context: async ({ req }) => {
+  context: ({ req, res }) => {
     const { user } = req;
 
     return {
+      req,
+      res,
       user,
       models: {
         User,

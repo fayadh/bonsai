@@ -1,7 +1,7 @@
 import * as React from "react";
 import { gql, useMutation } from "@apollo/client";
 
-import LoginForm from "./Form";
+import Form from "./Form";
 import { isLoggedInVar } from "../../apollo/variables";
 
 export const LOGIN_ADMIN = gql`
@@ -24,5 +24,5 @@ export default function Login() {
     return <p>An error occurred</p>;
   }
 
-  return <LoginForm login={login} />;
+  return <Form login={login} />;
 }

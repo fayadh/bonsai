@@ -1,17 +1,16 @@
 import * as React from "react";
 
-import AdminLogin from "../../components/AdminLogin";
+import Login from "../../components/AdminLogin";
 import Users from "../../components/Users";
+import { IS_LOGGED_IN } from "../../apollo/operations/queries";
+import { useQuery } from "@apollo/client";
 
-class App extends React.Component<any, any> {
-  render() {
-    return (
-      <div>
-        <AdminLogin />
-        {/* <Users /> */}
-      </div>
-    );
-  }
-}
+const App: React.FC = () => {
+  const {
+    data: { isLoggedIn },
+  } = useQuery(IS_LOGGED_IN);
+
+  return <div>{isLoggedIn ? <Users /> : <Login />}</div>;
+};
 
 export default App;

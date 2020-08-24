@@ -10,9 +10,9 @@ export enum UserRole {
 
 export interface User extends Document {
   email: string;
-  auth: Auth;
+  auth?: Auth;
   profile: Profile;
-  role: UserRole;
+  role?: UserRole;
 }
 
 export const UserSchema: Schema = new Schema({

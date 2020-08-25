@@ -1,4 +1,7 @@
+import { makeExecutableSchema } from "graphql-tools";
 import { gql } from "apollo-server-express";
+
+import resolvers from "./resolvers";
 
 const typeDefs = gql`
   type Merchant {
@@ -32,12 +35,14 @@ const typeDefs = gql`
   type MerchantUser {
     userId: String
   }
-  extend type Query {
+  type Query {
     merchants: [Merchant!]!
   }
-  extend type Mutation {
+  type Mutation {
     editMerchant(publishedState: Boolean!): Merchant
   }
 `;
 
-export default typeDefs;
+const merchantSchema = makeExecutableSchema({ typeDefs, resolvers });
+
+export default merchantSchema;

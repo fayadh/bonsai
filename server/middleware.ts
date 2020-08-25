@@ -67,6 +67,7 @@ const loginJWT = async ({ req, res, next, token }: any) => {
     // try google otherwise
     const userGoogleInfomation = await verifyGoogle(token);
     user = await findOrCreateUser(userGoogleInfomation);
+
     req.user = user;
     next();
   } catch (e) {

@@ -2,6 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 
 import schema from "./modules/schema";
 import User from "./models/User";
+import Log from "./models/Log";
 
 const server = new ApolloServer({
   schema,
@@ -14,6 +15,7 @@ const server = new ApolloServer({
       user,
       models: {
         User,
+        Log,
       },
     };
   },

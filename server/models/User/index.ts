@@ -15,12 +15,19 @@ export interface User extends Document {
   role?: UserRole;
 }
 
-export const UserSchema: Schema = new Schema({
-  email: { type: String, unique: true, required: true },
-  auth: { type: auth, select: false },
-  profile: { type: profile },
-  role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
-});
+export const UserSchema: Schema = new Schema(
+  {
+    email: { type: String, unique: true, required: true },
+    auth: { type: auth, select: false },
+    profile: { type: profile },
+    role: {
+      type: String,
+      enum: Object.values(UserRole),
+      default: UserRole.USER,
+    },
+  },
+  { timestamps: true }
+);
 
 const User: Model<User> = model("User", UserSchema);
 

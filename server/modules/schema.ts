@@ -1,26 +1,46 @@
-import { merge } from "lodash";
-import { gql, makeExecutableSchema } from "apollo-server-express";
+import { mergeSchemas, delegateToSchema } from "apollo-server-express";
 
-import Merchant from "./merchant/graphqlSchema";
-import merchantResolvers from "./merchant/resolvers";
-import User from "./user/graphqlSchema";
-import userResolvers from "./user/resolvers";
+import logSchema from "./log/graphqlSchema";
+import userSchema from "./user/graphqlSchema";
+import merchantSchema from "./merchant/graphqlSchema";
+import linkedTypeDefs from "./linkedTypeDefs";
 
-const Query = gql`
-  type Query {
-    _empty: String
-  }
-`;
-
-const Mutation = gql`
-  type Mutation {
-    _empty: String
-  }
-`;
-
-const resolvers = {};
-const schema = makeExecutableSchema({
-  typeDefs: [Query, Mutation, Merchant, User],
-  resolvers: merge(resolvers, merchantResolvers, userResolvers),
+const schema = mergeSchemas({
+  schemas: [userSchema, logSchema, merchantSchema, linkedTypeDefs],
+  resolvers: {
+    User: {
+      logs: {
+        fragment: `fragment UserFragment on User { _id }`,
+        resolve: (user: any, __: any, context: any, info: any) => {
+          return delegateToSchema({
+            schema: logSchema,
+            operation: "query",
+            fieldName: "logsByUserId",
+            args: {
+              userId: user._id,
+            },
+            context,
+            info,
+          });
+        },
+      },
+      logHistory: {
+        fragment: `fragment UserFragment on User { _id }`,
+        resolve: (user: any, __: any, context: any, info: any) => {
+          return delegateToSchema({
+            schema: logSchema,
+            operation: "query",
+            fieldName: "logHistoryByUserId",
+            args: {
+              userId: user._id,
+            },
+            context,
+            info,
+          });
+        },
+      },
+    },
+  },
 });
+
 export default schema;

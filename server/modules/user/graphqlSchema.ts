@@ -1,4 +1,7 @@
+import { makeExecutableSchema } from "graphql-tools";
 import { gql } from "apollo-server-express";
+
+import resolvers from "./resolvers";
 
 const typeDefs = gql`
   type UserProfile {
@@ -8,19 +11,22 @@ const typeDefs = gql`
   }
 
   type User {
+    _id: ID!
     email: String
     profile: UserProfile
     role: String
   }
 
-  extend type Query {
-    user: User
-    users: [User!]!
+  type Query {
+    me: User
+    users: [User!]
   }
 
-  extend type Mutation {
+  type Mutation {
     loginAdmin(email: String!, password: String!): User
   }
 `;
 
-export default typeDefs;
+const userSchema = makeExecutableSchema({ typeDefs, resolvers });
+
+export default userSchema;

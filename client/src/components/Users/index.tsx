@@ -6,6 +6,9 @@ export const GET_USERS = gql`
   query GetUsers {
     users {
       email
+      logHistory {
+        count
+      }
     }
   }
 `;

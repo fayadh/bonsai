@@ -8,7 +8,7 @@ import User, { User as IUser } from "./models/User";
 import { signToken } from "./utils";
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
-const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET);
+export const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET);
 
 const findOrCreateUser = async ({
   email,

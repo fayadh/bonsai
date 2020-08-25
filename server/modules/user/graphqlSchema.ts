@@ -1,4 +1,4 @@
-import { makeExecutableSchema } from "graphql-tools";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { gql } from "apollo-server-express";
 
 import resolvers from "./resolvers";
@@ -27,6 +27,9 @@ const typeDefs = gql`
   }
 `;
 
-const userSchema = makeExecutableSchema({ typeDefs, resolvers });
+const userSchema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 export default userSchema;

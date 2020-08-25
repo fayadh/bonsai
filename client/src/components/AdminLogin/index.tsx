@@ -3,6 +3,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import Form from "./Form";
 import { isLoggedInVar } from "../../apollo/variables";
+import "./styles.css";
 
 export const LOGIN_ADMIN = gql`
   mutation LoginAdmin($email: String!, $password: String!) {
@@ -24,5 +25,9 @@ export default function Login() {
     return <p>An error occurred</p>;
   }
 
-  return <Form login={login} />;
+  return (
+    <div className="admin-login">
+      <Form login={login} />
+    </div>
+  );
 }

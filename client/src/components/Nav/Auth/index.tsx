@@ -43,6 +43,7 @@ export const Auth: React.FC = () => {
           clientId={GOOGLE_CLIENT_ID}
           buttonText="Login"
           onSuccess={(res: any) => {
+            console.log({ res });
             const jwt = res.tokenId;
             document.cookie = `jwt=${jwt}`;
             login();

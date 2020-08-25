@@ -15,7 +15,9 @@ const password: Schema = new Schema(
   { _id: false }
 );
 
-const google: Schema = new Schema({});
+const google: Schema = new Schema({
+  refreshToken: { type: String, select: false },
+});
 
 const Auth: Schema = new Schema(
   {

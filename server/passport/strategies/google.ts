@@ -1,4 +1,5 @@
 import { Strategy } from "passport-google-oauth2";
+import User from "../../models/User";
 
 const {
   GOOGLE_CLIENT_ID,
@@ -13,21 +14,15 @@ export default new Strategy(
     callbackURL: GOOGLE_REDIRECT_URI,
     passReqToCallback: true,
   },
-  function (
+  async function (
     req: any,
     accessToken: any,
     refreshToken: any,
     profile: any,
     done: any
   ) {
-    console.log({
-      accessToken,
-      refreshToken,
-    });
-
-    done({
-      accessToken,
-      refreshToken,
-    });
+    await User.storeGoogleRefreshToken(profile.email, refreshToken);
+    req.res.cookie("jwt", accessToken);
+    done(null, profile.email);
   }
 );

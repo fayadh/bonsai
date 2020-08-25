@@ -8,7 +8,7 @@ export enum UserRole {
   USER = "user",
 }
 
-export interface User extends Document {
+export interface IUser extends Document {
   email: string;
   auth?: Auth;
   profile: Profile;
@@ -29,6 +29,40 @@ export const UserSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-const User: Model<User> = model("User", UserSchema);
+UserSchema.statics.storeGoogleRefreshToken = (
+  email: string,
+  refreshToken: string
+) => {
+  return User.findOneAndUpdate(
+    { email },
+    {
+      $set: {
+        "auth.google.refreshToken": refreshToken,
+      },
+    }
+  );
+};
+
+UserSchema.statics.findOrCreate = async (email: string, name: string) => {
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    user = await User.create({
+      email,
+      profile: {
+        name,
+      },
+    });
+  }
+
+  return user;
+};
+
+export interface IUserModel extends Model<IUser> {
+  findOrCreate(email: string, name: string): IUser;
+  storeGoogleRefreshToken(email: string, refreshToken: string): Promise<IUser>;
+}
+
+const User = model<IUser, IUserModel>("User", UserSchema);
 
 export default User;

@@ -28,7 +28,6 @@ app.use(
 );
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.get(
   "/auth/google",
@@ -48,12 +47,7 @@ app.get(
   })
 );
 
-app.get("/auth/google/success", async (req, res, next) => {
-  const { body } = req;
-
-  console.log({ body });
-  res.json(body);
-});
+app.get("/auth/google/success", async (_, res) => res.sendStatus(200));
 
 app.use(authenticationMiddleware);
 

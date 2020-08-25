@@ -4,33 +4,11 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 
-import User, { User as IUser } from "./models/User";
+import User, { IUser } from "./models/User";
 import { signToken } from "./utils";
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 export const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET);
-
-const findOrCreateUser = async ({
-  email,
-  givenName,
-  familyName,
-  name,
-}: any) => {
-  let user = await User.findOne({ email });
-
-  if (!user) {
-    user = await User.create({
-      email,
-      profile: {
-        name,
-        givenName,
-        familyName,
-      },
-    });
-  }
-
-  return user;
-};
 
 function verifyPassword(token: string): any {
   try {
@@ -65,9 +43,8 @@ const loginJWT = async ({ req, res, next, token }: any) => {
     }
 
     // try google otherwise
-    const userGoogleInfomation = await verifyGoogle(token);
-    user = await findOrCreateUser(userGoogleInfomation);
-
+    const { email, name } = await verifyGoogle(token);
+    user = await User.findOrCreate(email, name);
     req.user = user;
     next();
   } catch (e) {

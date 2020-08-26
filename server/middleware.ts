@@ -19,13 +19,18 @@ function verifyPassword(token: string): any {
   }
 }
 
+async function loginGoogle(token: string) {
+  const { email, name } = await verifyGoogle(token);
+  const user = await User.findOrCreate(email, name);
+  return user;
+}
+
 async function verifyGoogle(token: string) {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: GOOGLE_CLIENT_ID,
   });
-  const payload = ticket.getPayload();
-  return payload;
+  return ticket.getPayload();
 }
 
 const loginJWT = async ({ req, res, next, token }: any) => {
@@ -97,10 +102,24 @@ export const authenticationMiddleware: Handler = async (
   next: any
 ) => {
   // if trying to login with email, password combo, use password lookup strategy
+  let user = null;
   const { operationName, variables } = req.body;
   if (operationName == "LoginAdmin") {
     const { email, password } = variables;
     loginAdmin({ req, res, next, email, password });
+    return;
+  }
+
+  const serviceAccessToken = req.cookies["service-access-token"];
+  switch (req.cookies["access-token-service-name"]) {
+    case "google":
+      user = await loginGoogle(serviceAccessToken);
+      break;
+  }
+
+  if (user) {
+    req.user = user;
+    next();
     return;
   }
 

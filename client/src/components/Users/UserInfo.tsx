@@ -1,17 +1,17 @@
 import * as React from "react";
 
-export default function UserInfo(props: any) {
+export default function UserInfoRow(props: any) {
   const {
     user: {
       email,
-      // profile: { name },
+      logHistory: { count },
     },
     key,
   } = props;
   return (
-    <div key={key}>
-      {/* <div>Name: {name}</div> */}
-      <div>email: {email}</div>
-    </div>
+    <tr key={key}>
+      <td>{email}</td>
+      <td>{count}</td>
+    </tr>
   );
 }

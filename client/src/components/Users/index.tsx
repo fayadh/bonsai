@@ -1,6 +1,8 @@
 import * as React from "react";
 import { gql, useQuery } from "@apollo/client";
-import UserInfo from "./UserInfo";
+import { Table } from "reactstrap";
+
+import UserInfoRow from "./UserInfo";
 
 export const GET_USERS = gql`
   query GetUsers {
@@ -25,10 +27,20 @@ export default function Users() {
   }
 
   return (
-    <div>
-      {data &&
-        data.users.length &&
-        data.users.map((user: any) => <UserInfo key={user._id} user={user} />)}
-    </div>
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Login Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data &&
+          data.users.length &&
+          data.users.map((user: any) => (
+            <UserInfoRow key={user._id} user={user} />
+          ))}
+      </tbody>
+    </Table>
   );
 }

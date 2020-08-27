@@ -4,7 +4,7 @@ import { useApolloClient, useQuery } from "@apollo/client";
 
 import { IS_LOGGED_IN } from "../../../apollo/operations/queries";
 import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../../LogoutButton";
 
 export const Auth: React.FC = () => {
   const client = useApolloClient();

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Navbar, Nav, NavItem } from "reactstrap";
 
 import Auth from "./Auth";
+
 import "./styles.css";
 
 export function Navigation() {

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import Login from "../../components/AdminLogin";
 import Users from "../../components/Users";
+import AdminNav from "../../components/AdminNav";
 import { IS_LOGGED_IN } from "../../apollo/operations/queries";
 import { useQuery } from "@apollo/client";
 
@@ -13,7 +14,16 @@ const App: React.FC = () => {
   } = useQuery(IS_LOGGED_IN);
 
   return (
-    <div className="admin-app-root">{isLoggedIn ? <Users /> : <Login />}</div>
+    <div className="admin-app-root">
+      {isLoggedIn ? (
+        <div>
+          <AdminNav />
+          <Users />
+        </div>
+      ) : (
+        <Login />
+      )}
+    </div>
   );
 };
 

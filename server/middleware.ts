@@ -8,6 +8,7 @@ import { Types } from "mongoose";
 import User, { IUser, AUTH_SERVICES } from "./models/User";
 import { signToken } from "./utils";
 import { loginGoogle } from "./clients/google";
+import Log from "./models/Log";
 
 const { TOKEN_SECRET } = process.env;
 
@@ -71,12 +72,15 @@ const loginAdmin = async ({
 };
 
 export const authenticate = async (req: any, res: any) => {
-  // if trying to login with email, password combo, use password lookup strategy
   let user = null;
   const { operationName, variables } = req.body;
   if (operationName == "LoginAdmin") {
     const { email, password } = variables;
     await loginAdmin({ req, res, email, password });
+
+    const { _id: userId } = req.user as IUser;
+    await Log.create({ userId });
+
     return;
   }
 

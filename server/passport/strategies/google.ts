@@ -1,5 +1,6 @@
 import { Strategy } from "passport-google-oauth20";
 
+import Log from "../../models/Log";
 import User, { AUTH_SERVICES } from "../../models/User";
 import { ACCESS_TOKEN_COOKIE_OPTIONS } from "../cookies";
 
@@ -29,6 +30,8 @@ export default new Strategy(
       const user = await User.findOrCreate(email);
 
       await User.storeGoogleRefreshToken(email, refreshToken);
+
+      await Log.create({ userId: user._id });
 
       req.res.cookie("jwt", accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
       req.res.cookie(

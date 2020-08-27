@@ -3,8 +3,6 @@ import User, { UserRole } from "../../models/User";
 const resolvers = {
   Query: {
     me: async (_: any, __: any, { user, models: { Log } }: any) => {
-      const { _id: userId } = user;
-      await Log.create({ userId });
       return user;
     },
     users: async (_: any, __: any, { user }: any) => {

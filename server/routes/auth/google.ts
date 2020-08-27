@@ -21,7 +21,7 @@ app.get(
   })
 );
 
-app.get("/success", (req, res) => {
+app.get("/success", async (req, res) => {
   res.redirect(req.session.returnTo);
 });
 
@@ -30,7 +30,7 @@ app.get("/failure", (_, res) => {
   res.sendStatus(401);
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", (_, res) => {
   res.clearCookie("jwt");
   res.clearCookie("access-token-service");
   res.cookie("isSignedIn", false);

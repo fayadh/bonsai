@@ -13,11 +13,7 @@ export const Auth: React.FC = () => {
     data: { isLoggedIn },
   } = useQuery(IS_LOGGED_IN);
 
-  return (
-    <div>
-      <div>{isLoggedIn ? <LogoutButton /> : <LoginButton />}</div>
-    </div>
-  );
+  return <div>{isLoggedIn ? <LogoutButton /> : <LoginButton />}</div>;
 };
 
 export default Auth;

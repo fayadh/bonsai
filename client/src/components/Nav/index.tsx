@@ -1,16 +1,26 @@
 import * as React from "react";
-import { Nav, NavItem } from "reactstrap";
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  Collapse,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+} from "reactstrap";
 
 import Auth from "./Auth";
 import "./styles.css";
 
 export function Navigation() {
   return (
-    <Nav>
-      <NavItem>
-        <Auth />
-      </NavItem>
-    </Nav>
+    <Navbar className="Nav">
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+          <Auth />
+        </NavItem>
+      </Nav>
+    </Navbar>
   );
 }
 

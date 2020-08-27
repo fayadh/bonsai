@@ -1,13 +1,18 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import * as express from "express";
 
 import passport from "../../passport";
+
+const { CLIENT_URL } = process.env;
 
 const app = express();
 
 app.get(
   "/",
   (req, _, next) => {
-    const { returnTo = "http://localhost:8080" } = req.query;
+    const { returnTo = CLIENT_URL } = req.query;
     req.session.returnTo = returnTo;
     next();
   },
@@ -28,13 +33,6 @@ app.get("/success", async (req, res) => {
 app.get("/failure", (_, res) => {
   console.log("failure callback :(");
   res.sendStatus(401);
-});
-
-app.get("/logout", (_, res) => {
-  res.clearCookie("jwt");
-  res.clearCookie("access-token-service");
-  res.cookie("isSignedIn", false);
-  res.sendStatus(200);
 });
 
 app.get(

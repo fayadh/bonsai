@@ -2,7 +2,7 @@ import User, { UserRole } from "../../models/User";
 
 const resolvers = {
   Query: {
-    me: async (_: any, __: any, { user, models: { Log } }: any) => {
+    me: async (_: any, __: any, { user }: any) => {
       return user;
     },
     users: async (_: any, __: any, { user }: any) => {

@@ -1,7 +1,10 @@
 import * as React from "react";
-import Nav from "../../components/Nav";
-import { isLoggedInVar } from "../../apollo/variables";
+
 import { useApolloClient, useQuery } from "@apollo/client";
+
+import Nav from "../../components/Nav";
+import Products from "../../components/Products";
+import { isLoggedInVar } from "../../apollo/variables";
 import { LOGIN } from "../../apollo/operations/queries";
 
 const App = () => {
@@ -16,7 +19,7 @@ const App = () => {
   return (
     <>
       <Nav />
-      {/* <Products /> */}
+      <Products />
     </>
   );
 };

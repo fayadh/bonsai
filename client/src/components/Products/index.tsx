@@ -7,7 +7,7 @@ import {
   CardBody,
   Media,
 } from "reactstrap";
-import { gql } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import { Query } from "react-apollo";
 
 import "./styles.css";
@@ -32,9 +32,11 @@ const GET_PRODUCTS = gql`
 
 //@ts-ignore
 const withProducts = (Component) => (props) => {
+  const client = useApolloClient();
+
   return (
     //@ts-ignore
-    <Query query={GET_PRODUCTS}>
+    <Query query={GET_PRODUCTS} client={client}>
       {/* //@ts-ignore */}
       {({ loading, data }) => {
         return (

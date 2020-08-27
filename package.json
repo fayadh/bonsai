@@ -38,8 +38,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
     "react": "^16.8.6",
-    "react-apollo": "^2.5.8",
-    "react-apollo-hooks": "^0.5.0",
+    "react-apollo": "^3.1.5",
     "react-dom": "^16.8.6",
     "react-final-form": "^6.5.1",
     "react-google-login": "^5.1.21",
@@ -52,7 +51,8 @@
     "client": "webpack-dev-server --mode development --open --config webpack.config.client.js",
     "server": "npm-run-all --parallel server:build server:run",
     "server:build": "webpack --config webpack.config.server.js --watch",
-    "server:run": "nodemon ./dist/server/index.js"
+    "server:run": "nodemon ./dist/server/index.js",
+    "admin:create": "ts-node ./server/createAdminUser.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -64,6 +64,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.7",
     "@types/dotenv": "^8.2.0",
+    "@types/dotenv-webpack": "^1.8.0",
     "@types/express": "^4.17.7",
     "@types/express-session": "^1.17.0",
     "@types/graphql": "^14.5.0",
@@ -79,6 +80,7 @@
     "babel-loader": "^8.0.6",
     "concurrently": "^4.1.1",
     "css-loader": "^3.1.0",
+    "dotenv-webpack": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",

@@ -1,3 +1,6 @@
 import { makeVar } from "@apollo/client";
 
-export const isLoggedInVar = makeVar(false);
+import { getCookie } from "../utils";
+
+const isSignedIn = getCookie("isSignedIn");
+export const isLoggedInVar = makeVar(isSignedIn === "true");

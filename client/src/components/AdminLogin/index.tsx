@@ -21,7 +21,6 @@ export default function Login() {
   });
 
   if (error) {
-    console.log({ error });
     return <p>An error occurred</p>;
   }
 

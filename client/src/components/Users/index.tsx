@@ -21,7 +21,6 @@ export default function Users() {
   }
 
   if (error) {
-    console.log({ error });
     return <p>An error occurred</p>;
   }
 

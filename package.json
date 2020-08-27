@@ -69,7 +69,7 @@
     "@types/graphql": "^14.5.0",
     "@types/js-cookie": "^2.2.6",
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/lodash": "^4.14.159",
+    "@types/lodash": "^4.14.160",
     "@types/mongoose": "^5.7.36",
     "@types/passport": "^1.0.4",
     "@types/passport-google-oauth2": "^0.1.3",

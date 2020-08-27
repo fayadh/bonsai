@@ -22,13 +22,20 @@ const resolvers = {
       __: any,
       { user, models: { Log }, req, res }: any
     ) => {
-      const { token } = req;
+      const { token } = req.session;
       const { _id: userId } = user;
       await Log.create({ userId });
+
       res.cookie("jwt", token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
+        // flag true in production when using HTTPS
+        // secrure: true
       });
+      res.cookie("access-token-service", "password", { httpOnly: true });
+      res.cookie("jwt", token, { httpOnly: true });
+      res.cookie("isSignedIn", true);
+
       return user;
     },
   },

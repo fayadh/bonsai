@@ -12,12 +12,18 @@ const password: Schema = new Schema(
   {
     bcrypt: { type: String, select: false },
   },
-  { _id: false }
+  { _id: false, timestamps: true }
 );
 
-const google: Schema = new Schema({
-  refreshToken: { type: String, select: false },
-});
+const google: Schema = new Schema(
+  {
+    refreshToken: { type: String, select: false },
+  },
+  {
+    _id: false,
+    timestamps: true,
+  }
+);
 
 const Auth: Schema = new Schema(
   {

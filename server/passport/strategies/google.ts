@@ -1,5 +1,7 @@
 import { Strategy } from "passport-google-oauth20";
-import User from "../../models/User";
+
+import User, { AUTH_SERVICES } from "../../models/User";
+import { ACCESS_TOKEN_COOKIE_OPTIONS } from "../cookies";
 
 const {
   GOOGLE_CLIENT_ID,
@@ -7,13 +9,11 @@ const {
   GOOGLE_REDIRECT_URI,
 } = process.env;
 
-console.log({ GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI });
-
 export default new Strategy(
   {
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback",
+    callbackURL: GOOGLE_REDIRECT_URI,
     passReqToCallback: true,
   },
   async function (
@@ -23,8 +23,24 @@ export default new Strategy(
     profile: any,
     done: any
   ) {
-    await User.storeGoogleRefreshToken(profile.email, refreshToken);
-    req.res.cookie("jwt", accessToken);
-    done(null, profile.email);
+    try {
+      const email = profile.emails[0].value;
+
+      const user = await User.findOrCreate(email);
+
+      await User.storeGoogleRefreshToken(email, refreshToken);
+
+      req.res.cookie("jwt", accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
+      req.res.cookie(
+        "access-token-service",
+        AUTH_SERVICES.GOOGLE,
+        ACCESS_TOKEN_COOKIE_OPTIONS
+      );
+      req.res.cookie("isSignedIn", true);
+
+      done(null, user._id);
+    } catch (e) {
+      console.log("error!", e);
+    }
   }
 );

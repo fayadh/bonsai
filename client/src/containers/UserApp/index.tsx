@@ -1,16 +1,24 @@
 import * as React from "react";
 import Nav from "../../components/Nav";
-// import Products from "../../components/Products";
+import { isLoggedInVar } from "../../apollo/variables";
+import { useApolloClient, useQuery } from "@apollo/client";
+import { LOGIN } from "../../apollo/operations/queries";
 
-class App extends React.Component<any, any> {
-  render() {
-    return (
-      <>
-        <Nav />
-        {/* <Products /> */}
-      </>
-    );
-  }
-}
+const App = () => {
+  const client = useApolloClient();
+
+  useQuery(LOGIN, {
+    onCompleted(data) {
+      isLoggedInVar(!!(data && data.me));
+    },
+  });
+
+  return (
+    <>
+      <Nav />
+      {/* <Products /> */}
+    </>
+  );
+};
 
 export default App;

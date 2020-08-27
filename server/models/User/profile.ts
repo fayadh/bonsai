@@ -8,7 +8,7 @@ export interface Profile {
 
 const Profile: Schema = new Schema(
   {
-    name: { type: String, default: null, required: true },
+    name: { type: String, default: null },
     givenName: { type: String, default: null },
     familyName: { type: String, default: null },
   },

@@ -1,10 +1,11 @@
 import * as React from "react";
 
+import { useQuery } from "@apollo/client";
+
 import Login from "../../components/AdminLogin";
 import Users from "../../components/Users";
 import AdminNav from "../../components/AdminNav";
 import { IS_LOGGED_IN } from "../../apollo/operations/queries";
-import { useQuery } from "@apollo/client";
 
 import "./styles.css";
 
